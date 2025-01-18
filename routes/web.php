@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\DataController;
+use App\Models\Siswa;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DataController;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 
 // Route::get('/', function () {
@@ -25,3 +26,18 @@ Route::post('/phone/{id}', [DataController::class, 'store_phone'])->name('phone.
 Route::get('/editphone/{id}', [DataController::class, 'edit2'])->name('phone.edit');
 Route::put('/editphone/{id}', [DataController::class, 'update2'])->name('phone.update');
 Route::delete('/detail/{id}', [DataController::class, 'destroy2'])->name('phone.delete');
+
+Route::post('/detail/{id}', [DataController::class, 'store_hobby'])->name('hobby.post');
+
+Route::get('/nyoba', function () {
+    $siswa = Siswa::find(1);
+    $hobby = ['1', '2', '3'];
+    $siswa->hobby()->sync($hobby);
+    echo 'berhasil';
+    });
+
+    Route::get('/hapus', function () {
+    $siswa = Siswa::find(1);
+    $siswa->hobby()->detach();
+    echo 'berhasil menghapus';
+    });

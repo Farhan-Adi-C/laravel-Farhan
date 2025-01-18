@@ -19,4 +19,8 @@ class Siswa extends Model
     public function nisn():BelongsTo{
         return $this->belongsTo(Nisn::class);
     }
+
+    public function hobby(){
+        return $this->belongsToMany(Hobby::class, 'siswa_hobby');
+    }
 }

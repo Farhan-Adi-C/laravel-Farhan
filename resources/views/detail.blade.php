@@ -8,47 +8,70 @@
     <title>Detail Siswa</title>
 </head>
 <body class="bg-gray-100 p-8">
+    @foreach ($hobby_siswa as $item)
+        <ul>
+            <li>{{ $item->hobby }}</li>
+        </ul>
+    @endforeach
 
     @if (session('success'))
-    <script>
-        alert('{{ session('success') }}')
-    </script>
+        <script>
+            alert('{{ session('success') }}')
+        </script>
     @endif
+
     @foreach ($data as $item)
-        
+        <div class="max-w-lg mx-auto bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-2xl font-bold text-center mb-4">Detail Siswa</h2>
 
-    <div class="max-w-lg mx-auto bg-white rounded-lg shadow-lg p-6">
-        <h2 class="text-2xl font-bold text-center mb-4">Detail Siswa</h2>
-        
-            
-        
-        <div class="mb-6">
-            <p class="text-xl font-semibold">Nama: <span class="font-normal">{{ $item->nama }}</span></p>
-        </div>
-        <div class="mb-6">
-            <p class="text-xl font-semibold">NISN: <span class="font-normal">{{ $item->nisn->nisn }}</span></p>
-        </div>
+            <div class="mb-6">
+                <p class="text-xl font-semibold">Nama: <span class="font-normal">{{ $item->nama }}</span></p>
+            </div>
+            <div class="mb-6">
+                <p class="text-xl font-semibold">NISN: <span class="font-normal">{{ $item->nisn->nisn }}</span></p>
+            </div>
 
-        <div class="mb-6">
-            <p class="text-lg font-semibold">Nomor Telepon:</p>
-            <ul class="space-y-4">
-               @foreach ($item->phone as $i)
-                   
-               
-                <li class="flex justify-between items-center">
-                    <span class="text-md">{{ $i->phone_number }}</span>
-                    <div class="flex space-x-2">
-                        <a href="{{ route('phone.edit', ['id' => $i->id]) }}" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Edit</a>
-                        <form action="{{ route('phone.delete', ['id' => $i->id]) }}" method="POST">
-                            @csrf
-                            @method('delete')
-                            <button type="submit" class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"  onclick="return confirm('apakah anda yakin ?')">Delete</button>
-                        </form>
+            <div class="mb-6">
+                <p class="text-lg font-semibold">Nomor Telepon:</p>
+                <ul class="space-y-4">
+                    @foreach ($item->phone as $i)
+                        <li class="flex justify-between items-center">
+                            <span class="text-md">{{ $i->phone_number }}</span>
+                            <div class="flex space-x-2">
+                                <a href="{{ route('phone.edit', ['id' => $i->id]) }}" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Edit</a>
+                                <form action="{{ route('phone.delete', ['id' => $i->id]) }}" method="POST">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"  onclick="return confirm('apakah anda yakin ?')">Delete</button>
+                                </form>
+                            </div>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+            {{-- {{ route('hobby.store', ['id' => $item->id]) }} --}}
+            <div class="mb-6">
+                <form action="{{ route('hobby.post', ['id' => $item->id]) }}" method="POST">
+                    @csrf
+
+                    <p class="text-lg font-semibold mb-2">Pilih Hobi:</p>
+                    <div class="space-y-4">
+                        @foreach ($hobby as $item)
+                            <div class="flex items-center">
+                                <input type="checkbox" id="{{ $item->hobby }}" name="hobby[]" value="{{ $item->id }}" class="mr-2" 
+                                @if ($hobby_siswa->contains('id', $item->id)) 
+                                    checked
+                                @endif>
+                                <label for="{{ $item->hobby }}" class="text-md">{{ $item->hobby }}</label>
+                            </div>
+                        @endforeach
                     </div>
-                </li>
-                @endforeach
-            </ul>
-        </div>
+
+                    <div class="mt-4 text-center">
+                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Simpan Hobi</button>
+                    </div>
+                </form>
+            </div>
 
         @endforeach
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Nisn;
+use App\Models\Hobby;
 use App\Models\Phone;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
@@ -21,7 +22,8 @@ class DataController extends Controller
     
     public function index2()
     {
-        return view('form');
+        $hobby = Hobby::all();
+        return view('form', compact('hobby'));
     }
     
     public function index3($id)
@@ -33,7 +35,11 @@ class DataController extends Controller
     public function index4($id)
     {
         $data = Siswa::with('phone', 'nisn')->where('id', $id)->get();
-        return view('detail', compact('data'));
+        $siswa = Siswa::find($id);
+        $hobby_siswa = $siswa->hobby;
+        $hobby = Hobby::all();
+        return view('detail', compact('data', 'hobby_siswa', 'hobby'));
+        
     }
 
     /**
@@ -68,8 +74,18 @@ class DataController extends Controller
             'phone_number' => $request->input('phone_number')
         ]);
 
+        $hobby = $request->input('hobby');
+        $siswa->hobby()->sync($hobby);
 
         return redirect()->route('data')->with('success', 'berhasil menambahkan data');
+    }
+
+    public function store_hobby(Request $request, $id){
+        $siswa = Siswa::find($id);
+        $hobby = $request->input('hobby');
+        $siswa->hobby()->sync($hobby);
+
+        return redirect()->route('detail', ['id' => $siswa->id])->with('success', 'berhasil');
     }
     
 
