@@ -8,11 +8,7 @@
     <title>Detail Siswa</title>
 </head>
 <body class="bg-gray-100 p-8">
-    @foreach ($hobby_siswa as $item)
-        <ul>
-            <li>{{ $item->hobby }}</li>
-        </ul>
-    @endforeach
+    
 
     @if (session('success'))
         <script>
@@ -61,7 +57,7 @@
                                 <input type="checkbox" id="{{ $item->hobby }}" name="hobby[]" value="{{ $item->id }}" class="mr-2" 
                                 @if ($hobby_siswa->contains('id', $item->id)) 
                                     checked
-                                @endif>
+                                @endif> 
                                 <label for="{{ $item->hobby }}" class="text-md">{{ $item->hobby }}</label>
                             </div>
                         @endforeach
@@ -73,16 +69,20 @@
                 </form>
             </div>
 
-        @endforeach
+            @endforeach
 
         <div class="mb-6 text-center">
+            @foreach ($data as $item)
             <a href="{{ route('phone', ['id' => $item->id]) }}" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Tambah No Telepon</a>
+            @endforeach
         </div>
 
         <div class="flex justify-center mt-6">
             <a href="{{ route('data') }}" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">Kembali</a>
         </div>
     </div>
+
+   
 
 </body>
 </html>

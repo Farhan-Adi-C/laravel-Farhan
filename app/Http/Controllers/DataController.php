@@ -29,6 +29,7 @@ class DataController extends Controller
     public function index3($id)
     {
         $data = Siswa::with('phone')->get();
+        
         return view('phone', compact('id'));
     }
    
@@ -38,6 +39,8 @@ class DataController extends Controller
         $siswa = Siswa::find($id);
         $hobby_siswa = $siswa->hobby;
         $hobby = Hobby::all();
+
+        
         return view('detail', compact('data', 'hobby_siswa', 'hobby'));
         
     }

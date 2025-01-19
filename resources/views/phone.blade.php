@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
-    <title>Form Data Siswa</title>
+    <title>Add Phone</title>
 </head>
 <body class="p-10">
     <h1 class="text-3xl font-bold text-center mb-6">Tambah No Telpon</h1>

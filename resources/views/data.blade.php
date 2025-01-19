@@ -4,18 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     @vite('resources/css/app.css')
     <title>Data Siswa SMKN 1 Tengaran</title>
 </head>
-<body class="p-10">
+<body class="p-7">
     @if (session('success'))
     <script>
         alert('{{ session('success') }}')
     </script>
     @endif
    
+    
+        <form action="{{ route('logout') }}" class="text-end ">
+            @csrf
+            <button type="submit" class="hover:underline"><i class="fa-solid fa-right-from-bracket hover:text-red-700">Logout</i> </button>
+        </form>
+    
     <h1 class="text-3xl font-bold text-center mb-6">Data Siswa SMKN 1 Tengaran</h1>
-    <a href="/form" class="px-3 py-2 bg-green-500 text-white rounded-md ml-14 mb-2 inline-block hover:bg-green-600">Tambah Data</a>
+    <div class="flex w-11/12 justify-between mx-auto">
+        @if (Auth::check())
+            <p>Hallo {{ Auth::user()->name }}</p>
+        @endif
+        <a href="/form" class=" px-3 py-2 bg-green-500 text-white rounded-md ml-14 mb-2 inline-block hover:bg-green-600">Tambah Data</a>
+    </div>
     <table class="border-black border-collapse w-11/12 mx-auto">
         <thead>
             <tr>
