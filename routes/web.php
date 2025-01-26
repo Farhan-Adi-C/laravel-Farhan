@@ -1,42 +1,88 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Models\Siswa;
+use App\Mail\WelcomeMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DataController;
-use Symfony\Component\HttpKernel\DataCollector\DataCollector;
+use App\Http\Controllers\HobbyController;
+use App\Http\Controllers\PhoneController;
+use App\Http\Controllers\ForgotPasswordController;
 
 // Route::get('/', function () {
 //     return view('welcome');
 // });
 
+
+// Start Route Login & Register
+
 Route::get('/registrasi', [AuthController::class, 'tampilRegistrasi'])->name('registrasi');
 Route::post('/registrasi/submit', [AuthController::class, 'submitRegistrasi'])->name('registrasi.submit');
 
-Route::get('/login', [AuthController::class, 'tampilLogin'])->name('login');
+Route::get('/', [AuthController::class, 'tampilLogin'])->name('login');
 Route::post('/login/submit', [AuthController::class, 'submitLogin'])->name('login.submit');
 
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/', [DataController::class, 'index'])->name('data');
+Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])
+    ->middleware('guest')
+    ->name('password.request');
 
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])
+    ->middleware('guest')
+    ->name('password.email');
+
+Route::get('/reset-password/{token}', [ForgotPasswordController::class, 'showResetForm'])
+    ->middleware('guest')
+    ->name('password.reset');
+
+Route::post('/reset-password', [ForgotPasswordController::class, 'resetPassword'])
+    ->middleware('guest')
+    ->name('password.update');
+// end Route Login
+
+// Start Route Content
 Route::middleware('auth')->group(function (){
-    Route::get('/edit/{id}', [DataController::class, 'edit'])->name('data.edit');
-    Route::put('/edit/{id}', [DataController::class, 'update'])->name('data.update');
+    Route::get('/siswa/index', [DataController::class, 'index'])->name('data');
+    Route::get('/update/{id}', [DataController::class, 'edit'])->name('data.edit');
+    Route::put('/update/{id}', [DataController::class, 'update'])->name('data.update');
     Route::delete('data/{id}', [DataController::class, 'destroy'])->name('data.delete');
     
-    Route::get('/detail/{id}', [DataController::class, 'index4'])->name('detail');
+    Route::get('/show/{id}', [DataController::class, 'detail'])->name('detail');
     
-    Route::get('/form', [DataController::class, 'index2'])->name('form');
-    Route::post('/form', [DataController::class, 'store'])->name('form.post');
+    Route::get('/post', [DataController::class, 'form'])->name('form');
+    Route::post('/post', [DataController::class, 'store'])->name('form.post');
     
     
-    Route::get('/phone/{id}', [DataController::class, 'index3'])->name('phone');
-    Route::post('/phone/{id}', [DataController::class, 'store_phone'])->name('phone.post');
-    Route::get('/editphone/{id}', [DataController::class, 'edit2'])->name('phone.edit');
-    Route::put('/editphone/{id}', [DataController::class, 'update2'])->name('phone.update');
-    Route::delete('/detail/{id}', [DataController::class, 'destroy2'])->name('phone.delete');
+    Route::get('/phone/index', [PhoneController::class, 'index'])->name('phone');
+    Route::post('/phone/{id}', [PhoneController::class, 'store'])->name('phone.post');
+    Route::get('/phone/post{id}', [PhoneController::class, 'add'])->name('phone.add');
+    Route::get('/phone/detail/{id}', [PhoneController::class, 'edit'])->name('phone.edit');
+    Route::get('/phone/update/{id}', [PhoneController::class, 'edit2'])->name('phone.edit2');
+    Route::put('/phone/update/{id}', [PhoneController::class, 'update'])->name('phone.update');
+    Route::delete('/phone/show/{id}', [PhoneController::class, 'destroy'])->name('phone.delete');
     
-    Route::post('/detail/{id}', [DataController::class, 'store_hobby'])->name('hobby.post');
+    Route::get('/hobby/index', [HobbyController::class, 'index'])->name('hobby');
+    Route::get('/addhobby/{id}/addhobby', [HobbyController::class, 'addhobby'])->name('tambah.hobby');
+    Route::get('/hobby/detail', [HobbyController::class, 'detail'])->name('detail.hobby');
+    Route::get('/hobby/show/{id}', [HobbyController::class, 'show'])->name('show.hobby');
+    // Route::get('hobby/edit/{id}', [HobbyController::class, 'editHobby'])->name('hobby.edit');
+    Route::get('hobby/detail/{id}', [HobbyController::class, 'editHobby'])->name('hobby.edit');
+    Route::get('hobby/update/{id}', [HobbyController::class, 'editHobbySiswa'])->name('hobbysiswa.edit');
+    Route::post('hobby/update/{id}', [HobbyController::class, 'updateHobbySiswa'])->name('update.hobbysiswa');
+    Route::get('/hobby/add', [HobbyController::class, 'add'])->name('hobby.add');
+    Route::post('/hobby/add', [HobbyController::class, 'storeHobby'])->name('hobby.post');
+    Route::put('/hobby/detail', [HobbyController::class, 'updateHobby'])->name('hobby.update');
+    Route::post('/addhobby/{id}', [HobbyController::class, 'storeaddhobby'])->name('add.hobby.post');
+    Route::delete('/hobby/detail/{id}', [HobbyController::class, 'destroy'])->name('hobby.delete');
+
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
 });    
 
+Route::get('/send-welcome-mail', function (){
+    $data = [
+        'email' => 'contoh@gmail.com',
+        'password' => 123
+    ];
+    Mail::to('aaa@gmail.com')->send(new WelcomeMail($data));
+});

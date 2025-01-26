@@ -15,33 +15,27 @@ class DataController extends Controller
      */
     public function index() 
     {
-
-        $data = Siswa::with('phone', 'nisn')->get();
-        return view('data', compact('data'));
+        $data = Siswa::with('phone', 'nisn', 'hobby')->get();
+        $hobby = Hobby::all();
+        return view('/siswa/index', compact('data', 'hobby'));
     }
     
-    public function index2()
+    public function form()
     {
         $hobby = Hobby::all();
-        return view('form', compact('hobby'));
+        return view('/siswa/post', compact('hobby'));
     }
     
-    public function index3($id)
-    {
-        $data = Siswa::with('phone')->get();
-        
-        return view('phone', compact('id'));
-    }
+
    
-    public function index4($id)
+    public function detail($id)
     {
         $data = Siswa::with('phone', 'nisn')->where('id', $id)->get();
         $siswa = Siswa::find($id);
         $hobby_siswa = $siswa->hobby;
         $hobby = Hobby::all();
 
-        
-        return view('detail', compact('data', 'hobby_siswa', 'hobby'));
+        return view('/siswa/show', compact('data', 'hobby_siswa', 'hobby'));
         
     }
 
@@ -71,11 +65,17 @@ class DataController extends Controller
             'nisn_id' => $nisn->id
         ]);
 
-
-        Phone::create([
-            'siswa_id' => $siswa->id,
-            'phone_number' => $request->input('phone_number')
-        ]);
+        if($request->phone_number){
+            $phoneNumber = $request->phone_number;
+            foreach ($phoneNumber as $phone){
+                if (empty($phone)){
+                    continue;
+                }
+                $siswa->phone()->create([
+                    'phone_number' => $phone
+                ]);
+            }
+        }
 
         $hobby = $request->input('hobby');
         $siswa->hobby()->sync($hobby);
@@ -83,32 +83,7 @@ class DataController extends Controller
         return redirect()->route('data')->with('success', 'berhasil menambahkan data');
     }
 
-    public function store_hobby(Request $request, $id){
-        $siswa = Siswa::find($id);
-        $hobby = $request->input('hobby');
-        $siswa->hobby()->sync($hobby);
-
-        return redirect()->route('detail', ['id' => $siswa->id])->with('success', 'berhasil');
-    }
     
-
-
-    public function store_phone(Request $request, $id)
-    {
-
-        $request->validate([
-            'phone_number' => 'required'
-        ]);
-
-        $siswa = Siswa::find($id);
-
-        Phone::create([
-            'siswa_id' => $siswa->id,
-            'phone_number' => $request->input('phone_number')
-        ]);
-
-        return redirect()->route('detail', ['id' => $siswa->id])->with('success', 'berhasil menambahkan data');
-    }
 
     /**
      * Display the specified resource.
@@ -124,14 +99,10 @@ class DataController extends Controller
     public function edit(string $id)
     {
         $siswa = Siswa::find($id);
+        $hobby_siswa = $siswa->hobby;
+        $hobby = Hobby::all();
 
-        return view('dataedit', compact('siswa'));
-    }
-   
-    public function edit2(string $id)
-    {
-        $phone = Phone::find($id);
-        return view('editphone', compact('phone'));
+        return view('/siswa/update', compact('siswa', 'hobby_siswa', 'hobby'));
     }
 
     /**
@@ -147,23 +118,13 @@ class DataController extends Controller
         // Nisn::create(['nisn' => $request->input('nisn'), 'siswa_id' => $siswa->id]);
         Nisn::where('id', $siswa->nisn_id)->update(['nisn' => $request->input('nisn')]);
         $siswa->save();
+        $hobby = (array) $request->input('hobby');
+        $siswa->hobby()->sync($hobby);
 
         return redirect()->route('data')->with('success', 'berhasil melakukan perubahan data');
     }
     
-    public function update2(Request $request, string $id)
-    {
-        $request->validate([
-            'phone_number' => 'required'
-        ]);
 
-        $phone = Phone::find($id);
-        
-        $phone->phone_number = $request->input('phone_number');
-        $phone->save();
-
-        return redirect()->route('detail', ['id' => $phone->siswa_id])->with('success', 'berhasil mengubah No.Telpon');
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -175,10 +136,4 @@ class DataController extends Controller
     }
 
 
-    public function destroy2(string $id)
-    {
-        $phone = Phone::find($id);
-        Phone::where('id', $id)->delete();
-        return redirect()->route('detail', ['id' => $phone->siswa_id])->with('success', 'berhasil menghapus no telepon');
-    }
 }
