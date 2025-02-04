@@ -6,7 +6,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <title>Dashcode - HTML Template</title>
+  <title>@yield('title', 'Dashcode - HTML Template')</title>
   <link rel="icon" type="image/png" href="{{ asset('assets/images/logo/favicon.svg') }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
@@ -16,6 +16,13 @@
   <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
   <!-- End : Theme CSS-->
   <script src="{{ asset('assets/js/settings.js') }}" sync></script>
+{{-- 
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.js"></script> --}}
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>
 </head>
 
 <body class=" font-inter dashcode-app" id="body_class">
@@ -116,6 +123,29 @@
             </a>
           </li>
           
+          <li class="sidebar-menu-title">APPS</li>
+        
+          <li class="">
+            <a href="javascript:void(0)" class="navItem">
+              <span class="flex items-center">
+            <iconify-icon class=" nav-icon" icon="fluent-mdl2:blog"></iconify-icon>
+            <span>Blogs</span>
+              </span>
+              <iconify-icon class="icon-arrow" icon="heroicons-outline:chevron-right"></iconify-icon>
+            </a>
+            <ul class="sidebar-submenu">
+              
+              <li>
+                <a href="{{ route('blog') }}">All Blogs</a>
+              </li>
+              <li>
+                <a href="{{ route('write') }}">Write Blog</a>
+              </li>
+              <li>
+                <a href="{{ route('table.blog') }}">Table Blogs</a>
+              </li>
+            </ul>
+          </li>
           
           
          
@@ -1405,7 +1435,11 @@
                     <div class="lg:h-8 lg:w-8 h-7 w-7 rounded-full flex-1 ltr:mr-[10px] rtl:ml-[10px]">
                       <img src="/assets/images/all-img/user.png" alt="user" class="block w-full h-full object-cover rounded-full">
                     </div>
-                    <span class="flex-none text-slate-600 dark:text-white text-sm font-normal items-center lg:flex hidden overflow-hidden text-ellipsis whitespace-nowrap">{{ Auth::user()->name }}</span>
+                    <span class="flex-none text-slate-600 dark:text-white text-sm font-normal items-center lg:flex hidden overflow-hidden text-ellipsis whitespace-nowrap">
+                      @if (isset(Auth::user()->name))
+                      {{ Auth::user()->name }}
+                      @endif
+                    </span>
                     <svg class="w-[16px] h-[16px] dark:text-white hidden lg:inline-block text-base inline-block ml-[10px] rtl:mr-[10px]" aria-hidden="true" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                     </svg>
@@ -1536,10 +1570,10 @@
   <script src="{{ asset('assets/js/rt-plugins.js') }}"></script>
   <script src="{{ asset('assets/js/app.js') }}"></script>
 
-{{--   
-  <script src="assets/js/jquery-3.6.0.min.js"></script>
-  <script src="assets/js/rt-plugins.js"></script>
-  <script src="assets/js/app.js"></script>
-  <script src="assets/js/app.min.js"></script> --}}
+  {{-- <!-- Summernote -->
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.js"></script> --}}
+  
+   {{-- <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.js"></script> --}}
 </body>
 </html>

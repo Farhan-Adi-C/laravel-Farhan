@@ -1,7 +1,7 @@
 
 @extends('layouts.app') 
 
-@section('title', 'Data Siswa SMKN 1 Tengaran') 
+@section('title', 'Detail Phone Students') 
 
 @section('content')
 @if (session('success'))
@@ -11,57 +11,7 @@
     @endif
    
     
-        
-    
-    {{-- <h1 class="text-3xl font-bold text-center mb-6">Data Phone Siswa SMKN 1 Tengaran</h1>
-    <div class="flex w-11/12 ">
-       
-        <a href="{{ route('data') }}" class=" px-3 py-2 bg-green-500 text-white rounded-md ml-2 mb-2 inline-block hover:bg-green-600">Home</a>
-        <a href="" class=" px-3 py-2 bg-green-500 text-white rounded-md ml-2 mb-2 inline-block hover:bg-green-600">Phone</a>
-        <a href="{{ route('hobby') }}" class=" px-3 py-2 bg-green-500 text-white rounded-md ml-2 mb-2 inline-block hover:bg-green-600">Hobby</a>
-    </div>
-    <table class="border-black border-collapse w-11/12 mx-auto">
-        <thead>
-            <tr>
-                <th class="border-[1.7px] px-4 py-2">No</th>
-                <th class="border-[1.7px] px-4 py-2">Siswa</th>
-                <th class="border-[1.7px] px-4 py-2">Phone</th>
-                <th class="border-[1.7px] py-2">Tombol</th>
-            </tr>
-        </thead>
-        <tbody>
-         
-                
-            @foreach ($data as $item)
-            <tr>
-                    
-                
-                <td class="border-[1.7px] px-4 py-2">{{ $loop->index + 1 }}</td>
-                <td class="border-[1.7px] px-4 py-2">{{ $item->nama }}</td>
-                <td class="border-[1.7px] px-4 py-2 mx-auto ">
-                    <ul>
-                        @foreach ($item->phone as $phone)
-                        <li>- {{ $phone->phone_number }}</li>
-                        @endforeach
-                    </ul>
-                </td>
-                <td class="border-[1.7px] py-8 text-center flex justify-center min-h-72 items-center">
-                    
-
-                <a href="{{ route('phone.edit', ['id' => $item->id]) }}" class="bg-blue-500 text-white px-5 py-2 rounded hover:bg-blue-600 max-h-10">Detail</a>
-                </td>
-            </tr>
-            @endforeach
-          
-
-
-        </tbody>
-    </table> --}}
-
-    
     <div class="card-body px-6 pb-6">
-
-      
 
         <div class="overflow-x-auto -mx-6 dashcode-data-table">
           <span class=" col-span-8  hidden"></span>

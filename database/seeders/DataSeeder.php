@@ -2,8 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Blog;
+use App\Models\Hobby;
 use App\Models\Phone;
 use App\Models\Siswa;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -14,13 +17,10 @@ class DataSeeder extends Seeder
      */
     public function run(): void
     {
-        $siswa = Siswa::factory(5)->create();
-
-        $siswa->each(function ($siswa){
-            Phone::factory(5)->create([
-                'siswa_id' => $siswa->id
-            ]);
-        });
-        
+        $user = User::factory(1)->create();        
+        $siswa = Siswa::factory(1)->create();
+        $phone = Phone::factory(1)->create();
+        $hobby = Hobby::factory(1)->create();
+        $blog = Blog::factory(1)->create();        
     }
 }

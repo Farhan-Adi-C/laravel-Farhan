@@ -4,13 +4,15 @@ use App\Mail\WelcomeMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\DataController;
 use App\Http\Controllers\HobbyController;
 use App\Http\Controllers\PhoneController;
+use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\ForgotPasswordController;
 
 // Route::get('/', function () {
-//     return view('welcome');
+//     return view('auth/login');
 // });
 
 
@@ -65,7 +67,6 @@ Route::middleware('auth')->group(function (){
     Route::get('/addhobby/{id}/addhobby', [HobbyController::class, 'addhobby'])->name('tambah.hobby');
     Route::get('/hobby/detail', [HobbyController::class, 'detail'])->name('detail.hobby');
     Route::get('/hobby/show/{id}', [HobbyController::class, 'show'])->name('show.hobby');
-    // Route::get('hobby/edit/{id}', [HobbyController::class, 'editHobby'])->name('hobby.edit');
     Route::get('hobby/detail/{id}', [HobbyController::class, 'editHobby'])->name('hobby.edit');
     Route::get('hobby/update/{id}', [HobbyController::class, 'editHobbySiswa'])->name('hobbysiswa.edit');
     Route::post('hobby/update/{id}', [HobbyController::class, 'updateHobbySiswa'])->name('update.hobbysiswa');
@@ -75,9 +76,20 @@ Route::middleware('auth')->group(function (){
     Route::post('/addhobby/{id}', [HobbyController::class, 'storeaddhobby'])->name('add.hobby.post');
     Route::delete('/hobby/detail/{id}', [HobbyController::class, 'destroy'])->name('hobby.delete');
 
+    Route::get('/blog/index', [BlogController::class, 'index'])->name('table.blog');
+    Route::get('/blog/blog', [BlogController::class, 'blog'])->name('blog');
+    Route::get('/blog/write', [BlogController::class, 'write'])->name('write');
+    Route::post('/blog/write', [BlogController::class, 'store'])->name('blog.post');
+    Route::get('/blog/show_blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
+    Route::delete('/blog/index/{id}', [BlogController::class, 'destroy'])->name('blog.delete');
+    Route::get('/blog/edit/{id}', [BlogController::class, 'edit'])->name('blog.edit');
+    Route::put('/blog/edit/{id}', [BlogController::class, 'update'])->name('blog.update');
+
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 });    
+
+// End Route Content
 
 Route::get('/send-welcome-mail', function (){
     $data = [
@@ -86,3 +98,16 @@ Route::get('/send-welcome-mail', function (){
     ];
     Mail::to('aaa@gmail.com')->send(new WelcomeMail($data));
 });
+
+
+
+
+// Route::get('/auth/redirect', [SocialiteController::class, 'redirect']);
+
+// Route::get('/auth/google/callback',[SocialiteController::class, 'callback']);
+
+
+
+Route::get('/auth/{provider}/redirect', [SocialiteController::class, 'redirect'])->name('socialite.redirect');
+Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback'])->name('socialite.callback');
+

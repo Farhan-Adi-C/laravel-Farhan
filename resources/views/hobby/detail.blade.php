@@ -1,7 +1,7 @@
 
 @extends('layouts.app') 
 
-@section('title', 'Data Siswa SMKN 1 Tengaran') 
+@section('title', 'Detail Hobby Students') 
 
 @section('content')
 @if (session('success'))

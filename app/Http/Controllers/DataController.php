@@ -30,7 +30,7 @@ class DataController extends Controller
    
     public function detail($id)
     {
-        $data = Siswa::with('phone', 'nisn')->where('id', $id)->get();
+        $data = Siswa::with('phone', 'nisn', 'hobby')->where('id', $id)->get();
         $siswa = Siswa::find($id);
         $hobby_siswa = $siswa->hobby;
         $hobby = Hobby::all();

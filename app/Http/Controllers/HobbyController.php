@@ -142,7 +142,7 @@ class HobbyController extends Controller
 
         $hobby->hobby = $request->hobby;
         $hobby->save();
-        return redirect()->route('detail.hobby', compact('id'))->with('success', 'berhasil mengupdate hobby');
+        return redirect()->route('detail.hobby')->with('success', 'berhasil mengupdate hobby');
     }
 
     /**
@@ -152,6 +152,6 @@ class HobbyController extends Controller
     {
         $hobby = Hobby::where('id', $id)->delete();
         
-        return redirect()->route('detail.hobby', compact('id'))->with('success', 'berhasil menghapus data');
+        return redirect()->route('detail.hobby')->with('success', 'berhasil menghapus data');
     }
 }

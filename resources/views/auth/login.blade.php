@@ -26,7 +26,7 @@
     </script>
     @endif
 
-    <div class="card">
+    <div class="card ">
         <div class="card-body flex flex-col p-6">
           <header class="flex mb-5 items-center border-b border-slate-100 dark:border-slate-700 pb-5 -mx-6 px-6">
             <div class="flex-1">
@@ -50,11 +50,26 @@
                 <div class="relative">
                   <input type="password" name="password" id="password" class="form-control !pl-9" placeholder="8+ characters, 1 capitat letter">
                   <iconify-icon icon="heroicons-outline:lock-closed" class="absolute left-2 top-1/2 -translate-y-1/2 text-base text-slate-500"></iconify-icon>
+                 
                 </div>
               </div>
               
-              <button class="btn inline-flex justify-center btn-dark ml-28" type="submit">Submit</button>
-              <p class="text-xs font-medium text-slate-500 mt-3 text-center">Have not account?  <a href="{{ route('registrasi') }}" class="text-primary hover:underline"> create account</a></p>
+              <button class="btn inline-flex justify-center btn-dark ml-28 mb-6" type="submit">Submit</button>
+            
+            <div class="flex justify-center gap-4 mt-4 mb-10">
+                <a href="{{ route('socialite.redirect', 'google') }}" class="flex items-center gap-2">
+                    <iconify-icon icon="mingcute:google-fill" class="text-base text-slate-500"></iconify-icon>
+                    <span>Login With Google</span>
+                </a>
+            
+                <a href="{{ route('socialite.redirect', 'facebook') }}" class="flex items-center gap-2">
+                    <iconify-icon icon="ic:outline-facebook" class="text-base text-slate-500"></iconify-icon>
+                    <span>Login With Facebook</span>
+                </a>
+            </div>
+            
+            
+              <p class="text-xs font-medium text-slate-500 text-center">Have not account?  <a href="{{ route('registrasi') }}" class="text-primary hover:underline"> create account</a></p>
               <p class="text-xs font-medium text-slate-500 mt-3 text-center"><a href="{{ route('password.request') }}" class="text-primary hover:underline"> Forgot Password</a></p>
             </form>
             @if (@session('status'))
