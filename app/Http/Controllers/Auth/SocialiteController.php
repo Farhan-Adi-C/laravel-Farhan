@@ -56,7 +56,7 @@ class SocialiteController extends Controller
         $socialUser = Socialite::driver($provider)->user();
         $authuser = $this->store($socialUser, $provider);
         Auth::login($authuser);
-        return redirect()->route('data');
+        return redirect()->route('dashboard');
     }
 
     public function store($socialUser, $provider){

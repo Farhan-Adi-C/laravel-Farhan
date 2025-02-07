@@ -16,15 +16,19 @@
       
         <div class="mb-6">
             <p class="text-lg font-semibold dark:text-slate-200">Option Hobby:</p>
-            <ul class="space-y-4">
+            <ul class="space-y-4 mt-4">
              
                 @foreach ($data as $item)
                     
                 
                 <li class="flex justify-between items-center">
-                    <span class="text-md dark:text-slate-300">{{ $item->hobby }}</span>
+                    <span class="text-md dark:text-slate-300">- {{ $item->hobby }}</span>
                     <div class="flex space-x-2">
                         {{-- <a href="{{ route('hobby.edit', ['id' => $item->id]) }}" > --}}
+                          
+                          @can('hobby-update')
+                              
+                          
                             <button class="btn inline-flex justify-center btn-outline-primary rounded-[25px]" data-bs-toggle="modal" data-bs-target="#default_modal1" data-id="{{ $item->id }}"
                                 data-id="{{ $item->id }}" data-hobby="{{ $item->hobby }}" id="button-edit">
                             <span class="flex items-center">
@@ -32,7 +36,11 @@
                                 <span>Edit</span>
                             </span>
                           </button>
+                          @endcan
                         {{-- </a>   --}}
+                        @can('hobby-delete')
+                            
+                       
                         <form action="{{ route('hobby.delete', ['id' => $item->id]) }}" method="POST" >
                             @csrf
                             @method('delete')
@@ -43,6 +51,7 @@
                                 </span>
                               </button>
                         </form>
+                        @endcan
                     </div>
                 </li>
                 @endforeach
@@ -50,10 +59,15 @@
         </div>
 
         <div class="flex mx-auto justify-center gap-4">
+          
+          @can('hobby-store')
             <div>
                 {{-- <a href="{{ route('hobby.add') }}" class="btn inline-flex justify-center mx-2 mt-3 btn-primary ">Tambah Hobby</a> --}}
+                    
                 <button data-bs-toggle="modal" data-bs-target="#default_modal" class="btn inline-flex justify-center btn-outline-dark capitalize">Add Hobby</button>
-            </div>
+              </div>
+              @endcan
+              
         </div>
     </div>
 
@@ -139,5 +153,6 @@
           </div>
         </div>
       </div>
+      
       <script src="{{ asset('js/updateHobby.js') }}"></script>
 @endsection 

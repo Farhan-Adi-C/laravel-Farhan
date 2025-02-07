@@ -30,7 +30,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($data)){
             $request->session()->regenerate();
-            return redirect()->route('data');
+            return redirect()->route('dashboard');
         }else{
             return redirect()->back()->with('success', 'email atau password anda salah');
         }

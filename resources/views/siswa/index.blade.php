@@ -10,6 +10,7 @@
     @endif
 
 
+    @can('siswa-store')
     <button data-bs-toggle="modal" data-bs-target="#default_modal"
         class="btn inline-flex justify-center btn-outline-dark capitalize">Add Student</button>
 
@@ -40,6 +41,9 @@
                         </button>
                     </div>
                     <!-- Modal body -->
+                    
+                        
+                   
                     <div class="p-6 space-y-4">
                         <form action="{{ route('form.post') }}" method="POST">
                             @csrf
@@ -106,7 +110,8 @@
             </div>
         </div>
     </div>
-
+    @endcan
+    
     <div class="card-body px-6 pb-6">
         <div class="overflow-x-auto -mx-6 dashcode-data-table">
             <span class=" col-span-8  hidden"></span>
@@ -122,7 +127,9 @@
                                 <th scope="col" class="table-th">NISN</th>
                                 <th scope="col" class="table-th">Phone</th>
                                 <th scope="col" class="table-th">Hobbies</th>
+                                @canany(['siswa-update', 'siswa-delete', 'siswa-show'])
                                 <th scope="col" class="table-th">Action</th>
+                                @endcanany
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
@@ -146,16 +153,26 @@
                                         </ul>
                                     </td>
 
+                                    
                                     <td class="table-td">
                                         <div class="flex space-x-3 rtl:space-x-reverse">
+                                            @can('siswa-show')
+                                                
                                             <button class="action-btn" type="button">
                                                 <a href="{{ route('detail', ['id' => $item->id]) }}"><iconify-icon
                                                         icon="heroicons:eye"></iconify-icon></a>
                                             </button>
+                                            @endcan
+                                            @can('siswa-update')
+                                                
                                             <button class="action-btn" type="button">
                                                 <a href="{{ route('data.edit', ['id' => $item->id]) }}"><iconify-icon
-                                                        icon="heroicons:pencil-square"></iconify-icon></a>
-                                            </button>
+                                                    icon="heroicons:pencil-square"></iconify-icon></a>
+                                                </button>
+                                                @endcan
+                                                @can('siswa-delete')
+                                                    
+                                                
                                             <form action="{{ route('data.delete', ['id' => $item->id]) }}"
                                                 method="POST">
                                                 @csrf
@@ -165,16 +182,15 @@
                                                     <iconify-icon icon="heroicons:trash"></iconify-icon>
                                                 </button>
                                             </form>
+                                            @endcan
                                         </div>
                                     </td>
+                                    
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    <button id="openModalBtn"
-                        class="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none">
-                        Buka Form
-                    </button>
+                   
 
                     <!-- Modal -->
 

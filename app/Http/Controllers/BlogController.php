@@ -170,4 +170,11 @@ class BlogController extends Controller
     //     return redirect()->back()->with('success', 'Gambar berhasil dihapus');
     // }
 
+    public function destroy(string $id)
+    {
+       $blog = Blog::where('id', $id)->delete();
+        
+        return redirect()->back()->with('success', 'berhasil menghapus data');
+    }
+
 }

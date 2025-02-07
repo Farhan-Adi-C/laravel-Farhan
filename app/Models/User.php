@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 // use Laravel\Sanctum\HasApiTokens;
 use Laravel\Passport\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,9 +14,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable,CanResetPassword;
+    use HasFactory, Notifiable,CanResetPassword,HasRoles;
     use HasApiTokens;
 
+    protected $guard_name = 'web';
     /**
      * The attributes that are mass assignable.
      *
@@ -56,5 +58,16 @@ class User extends Authenticatable
 
     public function socialite(){
         return $this->hasMany(Socialite::class);
+    }
+
+    protected static function booted()
+    {
+        parent::booted();
+
+        static::created(function ($user) {
+            if (!$user->hasRole('user')) {
+                $user->assignRole('user');
+            }
+        });
     }
 }

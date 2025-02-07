@@ -24,7 +24,11 @@
             <th scope="col" class="table-th">No</th>
             <th scope="col" class="table-th">Nama</th>
             <th scope="col" class="table-th">Phone</th>
+            @can('phone-show')
+                
             <th scope="col" class="table-th">Action</th>
+            @endcan
+       
         </tr>
     </thead>
     <tbody class="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
@@ -39,14 +43,17 @@
                     @endforeach
                 </ul>
             </td>
-           
-            <td class="table-td">
-                <div class="flex space-x-3 rtl:space-x-reverse">
-                    <button class="action-btn" type="button">
-                        <a href="{{ route('phone.edit', ['id' => $item->id]) }}"><iconify-icon icon="heroicons:eye"></iconify-icon></a>
+           @can('phone-show')
+               
+           <td class="table-td">
+               <div class="flex space-x-3 rtl:space-x-reverse">
+                   <button class="action-btn" type="button">
+                       <a href="{{ route('phone.edit', ['id' => $item->id]) }}"><iconify-icon icon="heroicons:eye"></iconify-icon></a>
                     </button>
                 </div>
             </td>
+            @endcan
+          
         </tr>
         @endforeach
     </tbody>

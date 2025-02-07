@@ -29,12 +29,19 @@
                             <div class="flex space-x-2">
                                 
                                
+                                @can('phone-update')
+                                    
+                                
                                 <a href="{{ route('phone.edit2', ['id' => $i->id]) }}"><button class="btn inline-flex justify-center btn-outline-primary rounded-[25px]">
                                     <span class="flex items-center">
                                         <iconify-icon class="text-xl ltr:mr-2 rtl:ml-2" icon="heroicons-outline:newspaper"></iconify-icon>
                                         <span>Edit</span>
                                     </span>
                                   </button></a>
+                                  @endcan
+                                  @can('phone-delete')
+                                      
+                                  
                                 <form action="{{ route('phone.delete', ['id' => $i->id]) }}" method="POST">
                                     @csrf
                                     @method('delete')
@@ -45,6 +52,7 @@
                                         </span>
                                       </button>
                                 </form>
+                                @endcan
                             </div>
                         </li>
                     @endforeach
@@ -55,13 +63,16 @@
 
            <div class="flex mx-auto justify-center gap-4">
             
-        <div class=" ">
-            @foreach ($data as $item)
+            @can('phone-store')
                 
-            <a href="{{ route('phone.add', ['id' =>$item->id]) }}" class="btn inline-flex justify-center mx-2 mt-3 btn-primary ">Tambah No Telepon</a>
-            @endforeach
-            
-        </div>
+            <div class=" ">
+                @foreach ($data as $item)
+                
+                <a href="{{ route('phone.add', ['id' =>$item->id]) }}" class="btn inline-flex justify-center mx-2 mt-3 btn-primary ">Tambah No Telepon</a>
+                @endforeach
+                
+            </div>
+            @endcan
                 
        
     </div>
